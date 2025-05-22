@@ -1,0 +1,24 @@
+name: Build KeyCastOW
+
+on:
+  workflow_dispatch:  # 让你手动点击运行
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1.3.1
+
+      - name: Build keycastow.vcxproj
+        run: msbuild keycastow.vcxproj /p:Configuration=Release /p:Platform=Win32
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: keycastow-exe
+          path: Release/keycastow.exe
